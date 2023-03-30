@@ -55,7 +55,7 @@ namespace BisimulationRelationObtainer
 
             PrintColorHelp();
 
-            Console.WriteLine($"Items: {R.Count}");
+            Console.WriteLine($"The relation is {R.Count} items large, using the {opts.Obtainer} obtainer.");
             int counter = 1;
             foreach (var item in R)
             {

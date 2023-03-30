@@ -1,5 +1,7 @@
-﻿{a,b}
+﻿// Label declaration
+{a,b}
 
+// State declaration, as well as if its a init state or a final state (or both)
 [Ø]
 [t0:IsInit]
 [t1]
@@ -7,6 +9,7 @@
 [t1t2:IsFinal]
 [t0t2:IsFinal]
 
+// Transitions
 Ø (a) Ø
 Ø (b) Ø
 

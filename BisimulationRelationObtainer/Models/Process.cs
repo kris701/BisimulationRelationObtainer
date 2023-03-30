@@ -27,30 +27,33 @@ namespace BisimulationRelationObtainer.Models
             {
                 if (line != "")
                 {
-                    if (line.Contains("{") && line.Contains("}"))
+                    if (!line.Trim().StartsWith("//"))
                     {
-                        var labelString = line.Trim().Replace("{", "").Replace("}", "").Replace(" ", "");
-                        labels = labelString.Split(",").ToList();
-                    } 
-                    else if (line.Contains("[") && line.Contains("]"))
-                    {
-                        var stateDefString = line.Trim().Replace("[", "").Replace("]", "").Replace(" ", "");
-                        var name = stateDefString.Split(":")[0];
-                        states.Add(name, new State(
-                            name, 
-                            new Dictionary<string, State>(),
-                            stateDefString.ToUpper().Contains("ISFINAL"),
-                            stateDefString.ToUpper().Contains("ISINIT")));
-                    }
-                    else if (line.Contains("(") && line.Contains(")"))
-                    {
-                        var transitionString = line.Trim().Replace("(", "").Replace(")", "");
-                        var transitionSteps = transitionString.Split(" ");
-                        var fromState = transitionSteps[0];
-                        var label = transitionSteps[1];
-                        var toState = transitionSteps[2];
+                        if (line.Contains("{") && line.Contains("}"))
+                        {
+                            var labelString = line.Trim().Replace("{", "").Replace("}", "").Replace(" ", "");
+                            labels = labelString.Split(",").ToList();
+                        }
+                        else if (line.Contains("[") && line.Contains("]"))
+                        {
+                            var stateDefString = line.Trim().Replace("[", "").Replace("]", "").Replace(" ", "");
+                            var name = stateDefString.Split(":")[0];
+                            states.Add(name, new State(
+                                name,
+                                new Dictionary<string, State>(),
+                                stateDefString.ToUpper().Contains("ISFINAL"),
+                                stateDefString.ToUpper().Contains("ISINIT")));
+                        }
+                        else if (line.Contains("(") && line.Contains(")"))
+                        {
+                            var transitionString = line.Trim().Replace("(", "").Replace(")", "");
+                            var transitionSteps = transitionString.Split(" ");
+                            var fromState = transitionSteps[0];
+                            var label = transitionSteps[1];
+                            var toState = transitionSteps[2];
 
-                        states[fromState].Transitions.Add(label, states[toState]);
+                            states[fromState].Transitions.Add(label, states[toState]);
+                        }
                     }
                 }
             }
