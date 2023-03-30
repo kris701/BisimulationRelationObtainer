@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BisimulationRelationObtainer": {
+      "commandName": "Project",
+      "commandLineArgs": "--pprocess ./Examples/s.txt\r\n--qprocess ./Examples/t.txt\r\n--obtainer HopcroftKarp"
+    }
+  }
+}
