@@ -13,7 +13,7 @@ namespace BisimulationRelationObtainer.Algorithms
         public override List<Pair<State>> ObtainRelation(Process P, Process Q)
         {
             HashSet<Pair<State>> R = new HashSet<Pair<State>>();
-            HashSet<Pair<State>> todo = new HashSet<Pair<State>>();
+            Queue<Pair<State>> todo = new Queue<Pair<State>>();
 
             if (!DoesLabelsMatch(P,Q))
                 throw new Exception("Process labels did not match!");
@@ -21,74 +21,93 @@ namespace BisimulationRelationObtainer.Algorithms
             State p0 = StateHelper.GetInitState(P.States);
             State q0 = StateHelper.GetInitState(Q.States);
 
-            todo.Add(new Pair<State>(p0,q0));
+            todo.Enqueue(new Pair<State>(p0,q0));
 
             while (todo.Count > 0)
             {
-                Pair<State> pair = todo.First();
-                todo.Remove(pair);
-                if (GetClosures(R, P, Q).Contains(pair))
+                Pair<State> pair = todo.Dequeue();
+                if (R.Contains(pair) || UnionAllClosures(P, Q, R).Contains(pair))
                     continue;
                 if (pair.Left.IsFinalState != pair.Right.IsFinalState)
                     throw new Exception("Relations are not bisimilar!");
                 foreach(var label in P.Labels)
-                    todo.Add(new Pair<State>(pair.Left.Transitions[label], pair.Right.Transitions[label]));
+                    todo.Enqueue(new Pair<State>(pair.Left.Transitions[label], pair.Right.Transitions[label]));
                 R.Add(pair);
             }
 
             return R.ToList();
         }
 
-        private HashSet<Pair<State>> GetClosures(HashSet<Pair<State>> states, Process P, Process Q)
+        private HashSet<Pair<State>> GetSymmetricClosure(HashSet<Pair<State>> states)
         {
-            HashSet<Pair<State>> newStates = new HashSet<Pair<State>>();
-
-            // Symmetric
-            HashSet<Pair<State>> symetricStates = SymmetricClosure(states);
-
-            // Reflective
-            HashSet<Pair<State>> reflectiveStates = ReflexiveClosure(P, Q);
-
-            // Transitive
-            HashSet<Pair<State>> transitiveStates = TransitiveClosure(P, Q);
-
-            // Combine it all
+            var symmetricStates = new HashSet<Pair<State>>();
             foreach (var state in states)
-                newStates.Add(state);
-            foreach (var state in symetricStates)
-                newStates.Add(state);
-            foreach (var state in reflectiveStates)
-                newStates.Add(state);
-            foreach (var state in transitiveStates)
-                newStates.Add(state);
-
-            return newStates;
-        }
-        private HashSet<Pair<State>> SymmetricClosure(HashSet<Pair<State>> states)
-        {
-            HashSet<Pair<State>> newStates = new HashSet<Pair<State>>();
-            foreach (var state in states)
-                newStates.Add(new Pair<State>(state.Right, state.Left));
-            return newStates;
+                if (!state.Left.Equals(state.Right))
+                    symmetricStates.Add(new Pair<State>(state.Right, state.Left));
+            return symmetricStates;
         }
 
-        private HashSet<Pair<State>> ReflexiveClosure(Process P, Process Q)
+        private HashSet<Pair<State>> GetReflexiveClosure(Process P, Process Q)
         {
-            HashSet<Pair<State>> newStates = new HashSet<Pair<State>>();
+            var reflectiveStates = new HashSet<Pair<State>>();
             foreach (var state in P.States)
-                newStates.Add(new Pair<State>(state, state));
+                reflectiveStates.Add(new Pair<State>(state, state));
             foreach (var state in Q.States)
-                newStates.Add(new Pair<State>(state, state));
-            return newStates;
+                reflectiveStates.Add(new Pair<State>(state, state));
+            return reflectiveStates;
         }
 
-        private HashSet<Pair<State>> TransitiveClosure(Process P, Process Q)
+        private HashSet<Pair<State>> GetTransitiveClosure(HashSet<Pair<State>> states, List<string> labels)
         {
-            HashSet<Pair<State>> newStates = new HashSet<Pair<State>>();
-            foreach (var state in P.States)
-                newStates.Add(new Pair<State>(state, state));
-            foreach (var state in Q.States)
-                newStates.Add(new Pair<State>(state, state));
+            var transitiveStates = new HashSet<Pair<State>>();
+
+            foreach (var pairA in states)
+            {
+                foreach (var pairB in states)
+                {
+                    if (!pairA.Equals(pairB))
+                        if (CanReach(pairA, pairB, labels, new HashSet<Pair<State>>(){ pairA }, 0))
+                            transitiveStates.Add(new Pair<State>(pairA.Left, pairB.Right));
+                }
+            }
+
+            return transitiveStates;
+        }
+
+        private bool CanReach(Pair<State> from, Pair<State> to, List<string> labels, HashSet<Pair<State>> visited, int depth)
+        {
+            depth++;
+            foreach (var label in labels)
+            {
+                var tempPair = new Pair<State>(from.Left.Transitions[label], from.Right.Transitions[label]);
+                if (tempPair.Equals(to))
+                    return depth >= 2;
+                else
+                {
+                    if (!visited.Contains(tempPair))
+                    {
+                        visited.Add(tempPair);
+                        if (CanReach(tempPair, to, labels, visited, depth))
+                            return true;
+                    }
+                };
+            }
+            return false;
+        }
+
+        private HashSet<Pair<State>> UnionAllClosures(Process P, Process Q, HashSet<Pair<State>> states)
+        {
+            HashSet<Pair<State>> newStates = new HashSet<Pair<State>>(states);
+
+            foreach (var state in GetSymmetricClosure(newStates))
+                newStates.Add(state);
+            foreach (var state in GetTransitiveClosure(newStates, P.Labels))
+                newStates.Add(state);
+            foreach (var state in GetSymmetricClosure(newStates))
+                newStates.Add(state);
+            foreach (var state in GetReflexiveClosure(P, Q))
+                newStates.Add(state);
+
             return newStates;
         }
     }

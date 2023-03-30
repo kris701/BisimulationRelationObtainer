@@ -13,7 +13,7 @@ namespace BisimulationRelationObtainer.Algorithms
         public override List<Pair<State>> ObtainRelation(Process P, Process Q)
         {
             HashSet<Pair<State>> R = new HashSet<Pair<State>>();
-            HashSet<Pair<State>> todo = new HashSet<Pair<State>>();
+            Queue<Pair<State>> todo = new Queue<Pair<State>>();
 
             if (!DoesLabelsMatch(P,Q))
                 throw new Exception("Process labels did not match!");
@@ -21,18 +21,17 @@ namespace BisimulationRelationObtainer.Algorithms
             State p0 = StateHelper.GetInitState(P.States);
             State q0 = StateHelper.GetInitState(Q.States);
 
-            todo.Add(new Pair<State>(p0,q0));
+            todo.Enqueue(new Pair<State>(p0,q0));
 
             while (todo.Count > 0)
             {
-                Pair<State> pair = todo.First();
-                todo.Remove(pair);
+                Pair<State> pair = todo.Dequeue();
                 if (R.Contains(pair))
                     continue;
                 if (pair.Left.IsFinalState != pair.Right.IsFinalState)
                     throw new Exception("Relations are not bisimilar!");
-                foreach(var label in pair.Left.Transitions.Keys)
-                    todo.Add(new Pair<State>(pair.Left.Transitions[label], pair.Right.Transitions[label]));
+                foreach(var label in P.Labels)
+                    todo.Enqueue(new Pair<State>(pair.Left.Transitions[label], pair.Right.Transitions[label]));
                 R.Add(pair);
             }
 

@@ -11,12 +11,17 @@ namespace BisimulationRelationObtainer
             var P = new Process("Examples/s.txt");
             var Q = new Process("Examples/t.txt");
 
+            //IObtainer obtainer = new SimpleNaive();
             IObtainer obtainer = new HopcroftAndKarp();
 
             var R = obtainer.ObtainRelation(P, Q);
             Console.WriteLine($"Items: {R.Count}");
-            foreach(var item in R)
-                Console.WriteLine(item);
+            int counter = 1;
+            foreach (var item in R)
+            {
+                Console.WriteLine($"{counter}: {item}");
+                counter++;
+            }
         }
     }
 }
