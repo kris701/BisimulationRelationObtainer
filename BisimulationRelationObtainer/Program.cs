@@ -7,6 +7,10 @@ namespace BisimulationRelationObtainer
 {
     internal class Program
     {
+        private static ConsoleColor InitStateColor = ConsoleColor.Green;
+        private static ConsoleColor FinalStateColor = ConsoleColor.Red;
+        private static ConsoleColor BothStateColor = ConsoleColor.Yellow;
+
         public class Options
         {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -49,13 +53,49 @@ namespace BisimulationRelationObtainer
             var R = obtainer.ObtainRelation(P, Q);
             Console.WriteLine("Done!");
 
+            PrintColorHelp();
+
             Console.WriteLine($"Items: {R.Count}");
             int counter = 1;
             foreach (var item in R)
             {
-                Console.WriteLine($"{counter}: {item}");
+                Console.Write("{0,-3}:", counter);
+                Console.Write("(");
+
+                SetConsoleColor(item.Left);
+                Console.Write($"{{{item.Left.Name}}}");
+                Console.ResetColor();
+                Console.Write(", ");
+                SetConsoleColor(item.Right);
+                Console.Write($"{{{item.Right.Name}}}");
+                Console.ResetColor();
+
+                Console.WriteLine(")");
                 counter++;
             }
+        }
+
+        static void SetConsoleColor(State state) {
+            if (state.IsFinalState && state.IsInitialState)
+                Console.ForegroundColor = BothStateColor;
+            else if (state.IsFinalState)
+                Console.ForegroundColor = FinalStateColor;
+            else if (state.IsInitialState)
+                Console.ForegroundColor = InitStateColor;
+            else
+                Console.ResetColor();
+        }
+        
+        static void PrintColorHelp()
+        {
+            Console.ResetColor();
+            Console.ForegroundColor = InitStateColor;
+            Console.Write("Initial States\t");
+            Console.ForegroundColor = FinalStateColor;
+            Console.Write("Final States\t");
+            Console.ForegroundColor = BothStateColor;
+            Console.WriteLine("Both initial and final States\t");
+            Console.ResetColor();
         }
 
         static void HandleParseError(IEnumerable<Error> errs)
