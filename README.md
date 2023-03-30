@@ -9,6 +9,12 @@ The program has a CLI interface, that accepts DFA's in file format.
 ![image](https://user-images.githubusercontent.com/22596587/228923242-47399694-31fe-4531-9467-38ef9acf8b6c.png)
 ![image](https://user-images.githubusercontent.com/22596587/228923348-dda8d1c8-47fe-427c-b034-297d9a418251.png)
 
+## CLI Arguments
+There are the following command line arguments:
+* `--pprocess`: The path to the one process file
+* `--qprocess`: The path to the other process file
+* `--obtainer`: What obtainer to use
+
 ## File Format
 The input file format for this program is very simple, and consists of 3 parts:
 * Label declaration
