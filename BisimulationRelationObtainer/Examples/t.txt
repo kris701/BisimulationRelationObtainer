@@ -1,0 +1,26 @@
+﻿{a,b}
+
+[Ø]
+[t0:IsInit]
+[t1]
+[t2:IsFinal]
+[t1t2:IsFinal]
+[t0t2:IsFinal]
+
+Ø (a) Ø
+Ø (b) Ø
+
+t0 (a) t1
+t0 (b) Ø
+
+t1 (a) t1t2
+t1 (b) t0
+
+t2 (a) t2
+t2 (b) t2
+
+t1t2 (a) t1t2
+t1t2 (b) t0t2
+
+t0t2 (a) t1t2
+t0t2 (b) t2
