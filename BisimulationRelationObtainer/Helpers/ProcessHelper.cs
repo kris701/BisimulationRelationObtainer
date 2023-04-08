@@ -72,7 +72,7 @@ namespace BisimulationRelationObtainer.Helpers
             foreach (var state in process.States)
                 foreach (var key in state.Transitions.Keys)
                     if (!process.States.Contains(state.Transitions[key]))
-                        throw new Exception("");
+                        throw new Exception("A transition is missing a target state!");
 
         }
     }
