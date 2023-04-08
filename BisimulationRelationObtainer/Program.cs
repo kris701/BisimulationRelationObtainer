@@ -2,6 +2,7 @@
 using BisimulationRelationObtainer.Models;
 using System;
 using CommandLine;
+using CommandLine.Text;
 
 namespace BisimulationRelationObtainer
 {
@@ -20,6 +21,17 @@ namespace BisimulationRelationObtainer
             public string QProcess { get; set; }
             [Option('o', "obtainer", Required = true, HelpText = "What obtainer to use. [Naive, HopcroftKarp]", Default = "Naive")]
             public string Obtainer { get; set; }
+
+            [Usage(ApplicationAlias = "BisimulationRelationObtainer")]
+            public static IEnumerable<Example> Examples
+            {
+                get
+                {
+                    return new List<Example>() {
+                        new Example("Find the bisimulation between two process files with a naive algorithm", new Options { PProcess = "file1.dfa", QProcess = "file2.dfa", Obtainer = "Naive" })
+                      };
+                }
+            }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         }
 
