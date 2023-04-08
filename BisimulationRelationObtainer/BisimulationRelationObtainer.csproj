@@ -12,11 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Examples\t.txt">
+    <None Update="Examples\Example1\t.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Examples\s.txt">
+    <None Update="Examples\Example1\s.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Examples\Example2\t.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Examples\Example2\s.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
