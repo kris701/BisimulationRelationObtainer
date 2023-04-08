@@ -10,28 +10,28 @@ namespace BisimulationRelationObtainer.Algorithms
 {
     public class SimpleNaive : BaseObtainer
     {
-        public override List<Pair<State>> ObtainRelation(Process P, Process Q)
+        public override List<Pair<DFAState>> ObtainRelation(DFAProcess P, DFAProcess Q)
         {
-            HashSet<Pair<State>> R = new HashSet<Pair<State>>();
-            Queue<Pair<State>> todo = new Queue<Pair<State>>();
+            HashSet<Pair<DFAState>> R = new HashSet<Pair<DFAState>>();
+            Queue<Pair<DFAState>> todo = new Queue<Pair<DFAState>>();
 
             if (!DoesLabelsMatch(P,Q))
                 throw new Exception("Process labels did not match!");
 
-            State p0 = StateHelper.GetInitState(P.States);
-            State q0 = StateHelper.GetInitState(Q.States);
+            DFAState p0 = StateHelper.GetInitState(P.States);
+            DFAState q0 = StateHelper.GetInitState(Q.States);
 
-            todo.Enqueue(new Pair<State>(p0,q0));
+            todo.Enqueue(new Pair<DFAState>(p0,q0));
 
             while (todo.Count > 0)
             {
-                Pair<State> pair = todo.Dequeue();
+                Pair<DFAState> pair = todo.Dequeue();
                 if (R.Contains(pair))
                     continue;
                 if (pair.Left.IsFinalState != pair.Right.IsFinalState)
                     throw new Exception("Relations are not bisimilar!");
                 foreach(var label in P.Labels)
-                    todo.Enqueue(new Pair<State>(pair.Left.Transitions[label], pair.Right.Transitions[label]));
+                    todo.Enqueue(new Pair<DFAState>(pair.Left.Transitions[label], pair.Right.Transitions[label]));
                 R.Add(pair);
             }
 

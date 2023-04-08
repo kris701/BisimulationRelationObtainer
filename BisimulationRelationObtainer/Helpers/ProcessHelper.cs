@@ -10,9 +10,9 @@ namespace BisimulationRelationObtainer.Helpers
 {
     public static class ProcessHelper
     {
-        public static Process ParseProcessFile(string file)
+        public static DFAProcess ParseProcessFile(string file)
         {
-            var states = new Dictionary<string, State>();
+            var states = new Dictionary<string, DFAState>();
             var labels = new List<string>();
 
             var lines = File.ReadAllLines(file);
@@ -32,9 +32,9 @@ namespace BisimulationRelationObtainer.Helpers
                         {
                             var stateDefString = toLowerLine.Replace("[", "").Replace("]", "").Replace(" ", "");
                             var name = stateDefString.Split(":")[0];
-                            states.Add(name, new State(
+                            states.Add(name, new DFAState(
                                 name,
-                                new Dictionary<string, State>(),
+                                new Dictionary<string, DFAState>(),
                                 stateDefString.ToUpper().Contains("ISFINAL"),
                                 stateDefString.ToUpper().Contains("ISINIT")));
                         }
@@ -52,10 +52,10 @@ namespace BisimulationRelationObtainer.Helpers
                 }
             }
 
-            return new Process(states.Values.ToList(), labels);
+            return new DFAProcess(states.Values.ToList(), labels);
         }
 
-        public static void IsProcessValid(Process process)
+        public static void IsProcessValid(DFAProcess process)
         {
             // Label Transition Check
             foreach (var state in process.States)

@@ -9,7 +9,7 @@ namespace BisimulationRelationObtainer.Helpers
 {
     public static class StateHelper
     {
-        public static State GetInitState(List<State> states)
+        public static DFAState GetInitState(List<DFAState> states)
         {
             foreach (var state in states)
                 if (state.IsInitialState)

@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace BisimulationRelationObtainer.Models
 {
-    public class Process
+    public class DFAProcess
     {
         public List<string> Labels { get; }
-        public List<State> States { get; }
+        public List<DFAState> States { get; }
 
-        public Process(List<State> states, List<string> labels)
+        public DFAProcess(List<DFAState> states, List<string> labels)
         {
             States = states;
             Labels = labels;
         }
 
-        public Process(string file)
+        public DFAProcess(string file)
         {
             var parsed = ProcessHelper.ParseProcessFile(file);
             ProcessHelper.IsProcessValid(parsed);

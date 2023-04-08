@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace BisimulationRelationObtainer.Models
 {
-    public class State
+    public class DFAState
     {
         public string Name { get; set; }
-        public Dictionary<string, State> Transitions { get; set; }
+        public Dictionary<string, DFAState> Transitions { get; set; }
         public bool IsFinalState { get; set; }
         public bool IsInitialState { get; set; }
 
-        public State(string name, Dictionary<string, State> transitions, bool isFinalState = false, bool isInitialState = false)
+        public DFAState(string name, Dictionary<string, DFAState> transitions, bool isFinalState = false, bool isInitialState = false)
         {
             Name = name;
             Transitions = transitions;
@@ -28,7 +28,7 @@ namespace BisimulationRelationObtainer.Models
 
         public override bool Equals(object? obj)
         {
-            if (obj is State state)
+            if (obj is DFAState state)
                 return state.Name == Name;
             return false;
         }

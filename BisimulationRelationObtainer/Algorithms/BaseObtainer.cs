@@ -9,9 +9,9 @@ namespace BisimulationRelationObtainer.Algorithms
 {
     public abstract class BaseObtainer : IObtainer
     {
-        public abstract List<Pair<State>> ObtainRelation(Process P, Process Q);
+        public abstract List<Pair<DFAState>> ObtainRelation(DFAProcess P, DFAProcess Q);
 
-        public bool DoesLabelsMatch(Process P, Process Q)
+        public bool DoesLabelsMatch(DFAProcess P, DFAProcess Q)
         {
             foreach (var label in P.Labels)
                 if (!Q.Labels.Contains(label))

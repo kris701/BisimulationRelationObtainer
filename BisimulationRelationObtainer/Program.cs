@@ -37,8 +37,8 @@ namespace BisimulationRelationObtainer
             if (!File.Exists(opts.QProcess))
                 throw new FileNotFoundException("The Q process file was not found!");
 
-            var P = new Process(opts.PProcess);
-            var Q = new Process(opts.QProcess); 
+            var P = new DFAProcess(opts.PProcess);
+            var Q = new DFAProcess(opts.QProcess); 
 
             IObtainer obtainer;
             switch (opts.Obtainer.ToUpper())
@@ -75,7 +75,7 @@ namespace BisimulationRelationObtainer
             }
         }
 
-        static void SetConsoleColor(State state) {
+        static void SetConsoleColor(DFAState state) {
             if (state.IsFinalState && state.IsInitialState)
                 Console.ForegroundColor = BothStateColor;
             else if (state.IsFinalState)

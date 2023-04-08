@@ -9,6 +9,6 @@ namespace BisimulationRelationObtainer.Algorithms
 {
     public interface IObtainer
     {
-        public List<Pair<State>> ObtainRelation(Process P, Process Q); 
+        public List<Pair<DFAState>> ObtainRelation(DFAProcess P, DFAProcess Q); 
     }
 }
