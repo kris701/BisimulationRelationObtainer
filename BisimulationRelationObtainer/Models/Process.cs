@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BisimulationRelationObtainer.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,47 +20,10 @@ namespace BisimulationRelationObtainer.Models
 
         public Process(string file)
         {
-            var states = new Dictionary<string,State>();
-            var labels = new List<string>();
-
-            var lines = File.ReadAllLines(file);
-            foreach (var line in lines)
-            {
-                if (line != "")
-                {
-                    if (!line.Trim().StartsWith("//"))
-                    {
-                        if (line.Contains("{") && line.Contains("}"))
-                        {
-                            var labelString = line.Trim().Replace("{", "").Replace("}", "").Replace(" ", "");
-                            labels = labelString.Split(",").ToList();
-                        }
-                        else if (line.Contains("[") && line.Contains("]"))
-                        {
-                            var stateDefString = line.Trim().Replace("[", "").Replace("]", "").Replace(" ", "");
-                            var name = stateDefString.Split(":")[0];
-                            states.Add(name, new State(
-                                name,
-                                new Dictionary<string, State>(),
-                                stateDefString.ToUpper().Contains("ISFINAL"),
-                                stateDefString.ToUpper().Contains("ISINIT")));
-                        }
-                        else if (line.Contains("(") && line.Contains(")"))
-                        {
-                            var transitionString = line.Trim().Replace("(", "").Replace(")", "");
-                            var transitionSteps = transitionString.Split(" ");
-                            var fromState = transitionSteps[0];
-                            var label = transitionSteps[1];
-                            var toState = transitionSteps[2];
-
-                            states[fromState].Transitions.Add(label, states[toState]);
-                        }
-                    }
-                }
-            }
-
-            States = states.Values.ToList();
-            Labels = labels;
+            var parsed = ProcessHelper.ParseProcessFile(file);
+            ProcessHelper.IsProcessValid(parsed);
+            Labels = parsed.Labels;
+            States = parsed.States;
         }
     }
 }
