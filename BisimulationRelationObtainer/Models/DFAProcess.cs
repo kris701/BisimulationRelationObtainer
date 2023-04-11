@@ -72,6 +72,41 @@ namespace BisimulationRelationObtainer.Models
             Validate();
         }
 
+        public void Write(string file)
+        {
+            string outStr = "";
+            // Label Declaration
+            outStr += "{";
+            for (int i = 0; i < Labels.Count; i++)
+            {
+                outStr += Labels[i];
+                if (i != Labels.Count - 1)
+                    outStr += ",";
+            }
+            outStr += $"}}{Environment.NewLine}";
+
+            // State Declarations
+            foreach (var state in States.Values)
+            {
+                outStr += $"[{state.Name}";
+                if (state.IsFinalState)
+                    outStr += ":IsFinal";
+                if (state.IsInitialState)
+                    outStr += ":IsInit";
+                outStr += $"]{Environment.NewLine}";
+            }
+
+            // Transitions
+            foreach (var state in States.Values)
+                foreach (var label in Labels)
+                    outStr += $"{state.Name} {label} {state.Transitions[label].Name}{Environment.NewLine}";
+
+            // Output file
+            if (File.Exists(file))
+                File.Delete(file);
+            File.WriteAllText(file, outStr);
+        }
+
         public bool Validate()
         {
             // Label Transition Check
