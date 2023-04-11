@@ -11,33 +11,33 @@ namespace BisimulationRelationObtainerTests
             yield return new object[] {
                 new DFAProcess("Examples/Example1/s.dfa"),
                 new DFAProcess("Examples/Example1/t.dfa"),
-                "[s0 [IsInit]] [t0 [IsInit]][s1] [t1][ø] [ø][s0s2 [IsFinal]] [t1t2 [IsFinal]][s1s2 [IsFinal]] [t1t2 [IsFinal]][s2 [IsFinal]] [t0t2 [IsFinal]][s0s2 [IsFinal]] [t0t2 [IsFinal]][s2 [IsFinal]] [t1t2 [IsFinal]][s2 [IsFinal]] [t2 [IsFinal]]"
+                "[(s0) [IsInit]] [(t0) [IsInit]][(s1)] [(t1)][(ø)] [(ø)][(s0,s2) [IsFinal]] [(t1,t2) [IsFinal]][(s1,s2) [IsFinal]] [(t1,t2) [IsFinal]][(s2) [IsFinal]] [(t0,t2) [IsFinal]][(s0,s2) [IsFinal]] [(t0,t2) [IsFinal]][(s2) [IsFinal]] [(t1,t2) [IsFinal]][(s2) [IsFinal]] [(t2) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example1/s.dfa"),
                 new DFAProcess("Examples/Example1/s.dfa"),
-                "[s0 [IsInit]] [s0 [IsInit]][s1] [s1][ø] [ø][s0s2 [IsFinal]] [s0s2 [IsFinal]][s1s2 [IsFinal]] [s1s2 [IsFinal]][s2 [IsFinal]] [s2 [IsFinal]]"
+                "[(s0) [IsInit]] [(s0) [IsInit]][(s1)] [(s1)][(ø)] [(ø)][(s0,s2) [IsFinal]] [(s0,s2) [IsFinal]][(s1,s2) [IsFinal]] [(s1,s2) [IsFinal]][(s2) [IsFinal]] [(s2) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example1/t.dfa"),
                 new DFAProcess("Examples/Example1/t.dfa"),
-                "[t0 [IsInit]] [t0 [IsInit]][t1] [t1][ø] [ø][t1t2 [IsFinal]] [t1t2 [IsFinal]][t0t2 [IsFinal]] [t0t2 [IsFinal]][t2 [IsFinal]] [t2 [IsFinal]]"
+                "[(t0) [IsInit]] [(t0) [IsInit]][(t1)] [(t1)][(ø)] [(ø)][(t1,t2) [IsFinal]] [(t1,t2) [IsFinal]][(t0,t2) [IsFinal]] [(t0,t2) [IsFinal]][(t2) [IsFinal]] [(t2) [IsFinal]]"
             };
 
             yield return new object[] {
                 new DFAProcess("Examples/Example2/s.dfa"),
                 new DFAProcess("Examples/Example2/t.dfa"),
-                "[s0 [IsInit]] [t0 [IsInit]][s0s2 [IsFinal]] [t1 [IsFinal]][s1 [IsFinal]] [t1 [IsFinal]][s1s2 [IsFinal]] [t1 [IsFinal]][s2 [IsFinal]] [t1 [IsFinal]]"
+                "[(s0) [IsInit]] [(t0) [IsInit]][(s0,s2) [IsFinal]] [(t1) [IsFinal]][(s1) [IsFinal]] [(t1) [IsFinal]][(s1,s2) [IsFinal]] [(t1) [IsFinal]][(s2) [IsFinal]] [(t1) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example2/s.dfa"),
                 new DFAProcess("Examples/Example2/s.dfa"),
-                "[s0 [IsInit]] [s0 [IsInit]][s0s2 [IsFinal]] [s0s2 [IsFinal]][s1 [IsFinal]] [s1 [IsFinal]][s1s2 [IsFinal]] [s1s2 [IsFinal]][s2 [IsFinal]] [s2 [IsFinal]]"
+                "[(s0) [IsInit]] [(s0) [IsInit]][(s0,s2) [IsFinal]] [(s0,s2) [IsFinal]][(s1) [IsFinal]] [(s1) [IsFinal]][(s1,s2) [IsFinal]] [(s1,s2) [IsFinal]][(s2) [IsFinal]] [(s2) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example2/t.dfa"),
                 new DFAProcess("Examples/Example2/t.dfa"),
-                "[t0 [IsInit]] [t0 [IsInit]][t1 [IsFinal]] [t1 [IsFinal]]"
+                "[(t0) [IsInit]] [(t0) [IsInit]][(t1) [IsFinal]] [(t1) [IsFinal]]"
             };
         }
         public static IEnumerable<object[]> GetTestSets_HopcroftAndKarp()
@@ -45,7 +45,7 @@ namespace BisimulationRelationObtainerTests
             yield return new object[] {
                 new DFAProcess("Examples/Example1/s.dfa"),
                 new DFAProcess("Examples/Example1/t.dfa"),
-                "[s0 [IsInit]] [t0 [IsInit]][s1] [t1][s0s2 [IsFinal]] [t1t2 [IsFinal]][s1s2 [IsFinal]] [t1t2 [IsFinal]][s2 [IsFinal]] [t0t2 [IsFinal]][s0s2 [IsFinal]] [t0t2 [IsFinal]][s2 [IsFinal]] [t2 [IsFinal]]"
+                "[(s0) [IsInit]] [(t0) [IsInit]][(s1)] [(t1)][(s0,s2) [IsFinal]] [(t1,t2) [IsFinal]][(s1,s2) [IsFinal]] [(t1,t2) [IsFinal]][(s2) [IsFinal]] [(t0,t2) [IsFinal]][(s0,s2) [IsFinal]] [(t0,t2) [IsFinal]][(s2) [IsFinal]] [(t2) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example1/s.dfa"),
@@ -61,7 +61,7 @@ namespace BisimulationRelationObtainerTests
             yield return new object[] {
                 new DFAProcess("Examples/Example2/s.dfa"),
                 new DFAProcess("Examples/Example2/t.dfa"),
-                "[s0 [IsInit]] [t0 [IsInit]][s0s2 [IsFinal]] [t1 [IsFinal]][s1 [IsFinal]] [t1 [IsFinal]][s1s2 [IsFinal]] [t1 [IsFinal]][s2 [IsFinal]] [t1 [IsFinal]]"
+                "[(s0) [IsInit]] [(t0) [IsInit]][(s0,s2) [IsFinal]] [(t1) [IsFinal]][(s1) [IsFinal]] [(t1) [IsFinal]][(s1,s2) [IsFinal]] [(t1) [IsFinal]][(s2) [IsFinal]] [(t1) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example2/s.dfa"),
@@ -79,33 +79,33 @@ namespace BisimulationRelationObtainerTests
             yield return new object[] {
                 new DFAProcess("Examples/Example1/s.dfa"),
                 new DFAProcess("Examples/Example1/t.dfa"),
-                "[s0 [IsInit]] [t0 [IsInit]][s1] [t1][ø] [ø][s0s2 [IsFinal]] [t1t2 [IsFinal]][s2 [IsFinal]] [t0t2 [IsFinal]][s2 [IsFinal]] [t2 [IsFinal]]"
+                "[(s0) [IsInit]] [(t0) [IsInit]][(s1)] [(t1)][(ø)] [(ø)][(s0,s2) [IsFinal]] [(t1,t2) [IsFinal]][(s2) [IsFinal]] [(t0,t2) [IsFinal]][(s2) [IsFinal]] [(t2) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example1/s.dfa"),
                 new DFAProcess("Examples/Example1/s.dfa"),
-                "[s0 [IsInit]] [s0 [IsInit]][s1] [s1][ø] [ø][s0s2 [IsFinal]] [s0s2 [IsFinal]][s2 [IsFinal]] [s2 [IsFinal]]"
+                "[(s0) [IsInit]] [(s0) [IsInit]][(s1)] [(s1)][(ø)] [(ø)][(s0,s2) [IsFinal]] [(s0,s2) [IsFinal]][(s2) [IsFinal]] [(s2) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example1/t.dfa"),
                 new DFAProcess("Examples/Example1/t.dfa"),
-                "[t0 [IsInit]] [t0 [IsInit]][t1] [t1][ø] [ø][t1t2 [IsFinal]] [t1t2 [IsFinal]][t0t2 [IsFinal]] [t0t2 [IsFinal]][t2 [IsFinal]] [t2 [IsFinal]]"
+                "[(t0) [IsInit]] [(t0) [IsInit]][(t1)] [(t1)][(ø)] [(ø)][(t1,t2) [IsFinal]] [(t1,t2) [IsFinal]][(t0,t2) [IsFinal]] [(t0,t2) [IsFinal]][(t2) [IsFinal]] [(t2) [IsFinal]]"
             };
 
             yield return new object[] {
                 new DFAProcess("Examples/Example2/s.dfa"),
                 new DFAProcess("Examples/Example2/t.dfa"),
-                "[s0 [IsInit]] [t0 [IsInit]][s0s2 [IsFinal]] [t1 [IsFinal]][s1 [IsFinal]] [t1 [IsFinal]][s2 [IsFinal]] [t1 [IsFinal]]"
+                "[(s0) [IsInit]] [(t0) [IsInit]][(s0,s2) [IsFinal]] [(t1) [IsFinal]][(s1) [IsFinal]] [(t1) [IsFinal]][(s2) [IsFinal]] [(t1) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example2/s.dfa"),
                 new DFAProcess("Examples/Example2/s.dfa"),
-                "[s0 [IsInit]] [s0 [IsInit]][s0s2 [IsFinal]] [s0s2 [IsFinal]][s1 [IsFinal]] [s1 [IsFinal]][s2 [IsFinal]] [s2 [IsFinal]]"
+                "[(s0) [IsInit]] [(s0) [IsInit]][(s0,s2) [IsFinal]] [(s0,s2) [IsFinal]][(s1) [IsFinal]] [(s1) [IsFinal]][(s2) [IsFinal]] [(s2) [IsFinal]]"
             };
             yield return new object[] {
                 new DFAProcess("Examples/Example2/t.dfa"),
                 new DFAProcess("Examples/Example2/t.dfa"),
-                "[t0 [IsInit]] [t0 [IsInit]][t1 [IsFinal]] [t1 [IsFinal]]"
+                "[(t0) [IsInit]] [(t0) [IsInit]][(t1) [IsFinal]] [(t1) [IsFinal]]"
             };
         }
 
