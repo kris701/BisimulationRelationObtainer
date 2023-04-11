@@ -1,5 +1,4 @@
-﻿using BisimulationRelationObtainer.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +9,9 @@ namespace BisimulationRelationObtainer.Models
     public class DFAProcess
     {
         public List<string> Labels { get; internal set; }
-        public Dictionary<Set, DFAState> States { get; internal set; }
+        public Dictionary<Set<string>, DFAState> States { get; internal set; }
 
-        public DFAProcess(Dictionary<Set, DFAState> states, List<string> labels)
+        public DFAProcess(Dictionary<Set<string>, DFAState> states, List<string> labels)
         {
             States = states;
             Labels = labels;
@@ -21,13 +20,13 @@ namespace BisimulationRelationObtainer.Models
         public DFAProcess(string file)
         {
             Labels = new List<string>();
-            States = new Dictionary<Set, DFAState>();
+            States = new Dictionary<Set<string>, DFAState>();
             Read(file);
         }
 
         public void Read(string file)
         {
-            var states = new Dictionary<Set, DFAState>();
+            var states = new Dictionary<Set<string>, DFAState>();
             var labels = new List<string>();
 
             var lines = File.ReadAllLines(file);
@@ -47,8 +46,8 @@ namespace BisimulationRelationObtainer.Models
                         {
                             var stateDefString = toLowerLine.Replace("[", "").Replace("]", "").Replace(" ", "");
                             var nameStr = stateDefString.Split(":")[0].Replace("(","").Replace(")","").Split(",");
-                            states.Add(new Set(nameStr), new DFAState(
-                                new Set(nameStr),
+                            states.Add(new Set<string>(nameStr), new DFAState(
+                                new Set<string>(nameStr),
                                 new Dictionary<string, DFAState>(),
                                 stateDefString.ToUpper().Contains("ISFINAL"),
                                 stateDefString.ToUpper().Contains("ISINIT")));
@@ -60,7 +59,7 @@ namespace BisimulationRelationObtainer.Models
                             string middle = splitStr[1];
                             var right = splitStr[2].Replace("(", "").Replace(")", "").Split(",");
 
-                            states[new Set(left)].Transitions.Add(middle, states[new Set(right)]);
+                            states[new Set<string>(left)].Transitions.Add(middle, states[new Set<string>(right)]);
                         }
                     }
                 }
@@ -125,6 +124,32 @@ namespace BisimulationRelationObtainer.Models
                 foreach (var key in state.Transitions.Keys)
                     if (!States.ContainsKey(state.Transitions[key].Name))
                         throw new Exception("A transition is missing a target state!");
+
+            // Check if there is a final state
+            bool finalStateFound = false;
+            foreach (var state in States.Values) {
+                if (state.IsFinalState)
+                {
+                    finalStateFound = true;
+                    break;
+                }
+            }
+            if (!finalStateFound)
+                throw new Exception("A process must have at least one final state!");
+
+            // Check if there is a initial state
+            bool initialStateFound = false;
+            foreach (var state in States.Values)
+            {
+                if (state.IsInitialState)
+                {
+                    initialStateFound = true;
+                    break;
+                }
+            }
+            if (!initialStateFound)
+                throw new Exception("A process must have one initial state!");
+
             return true;
         }
     }

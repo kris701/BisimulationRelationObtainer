@@ -24,9 +24,7 @@ namespace BisimulationRelationObtainer.Models
         public override bool Equals(object? obj)
         {
             if (obj is Pair<U> pair)
-            {
                 return pair.Left.Equals(Left) && pair.Right.Equals(Right);
-            }
             return false;
         }
 

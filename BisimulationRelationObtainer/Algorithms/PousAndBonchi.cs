@@ -1,5 +1,4 @@
-﻿using BisimulationRelationObtainer.Helpers;
-using BisimulationRelationObtainer.Models;
+﻿using BisimulationRelationObtainer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,22 +41,20 @@ namespace BisimulationRelationObtainer.Algorithms
 
         private HashSet<Pair<DFAState>> GetFullUnionOfStates(HashSet<Pair<DFAState>> states)
         {
-            HashSet<Pair<DFAState>> newStates = new HashSet<Pair<DFAState>>();
+            HashSet<Pair<DFAState>> newStates = new HashSet<Pair<DFAState>>(states);
+
             int skip = 1;
             foreach (var stateA in states)
             {
                 foreach (var stateB in states.Skip(skip))
                 {
                     newStates.Add(new Pair<DFAState>(
-                        new DFAState(new Set(stateA.Left.Name, stateB.Left.Name), new Dictionary<string, DFAState>()),
-                        new DFAState(new Set(stateA.Right.Name, stateB.Right.Name), new Dictionary<string, DFAState>())
+                        new DFAState(new Set<string>(stateA.Left.Name, stateB.Left.Name)),
+                        new DFAState(new Set<string>(stateA.Right.Name, stateB.Right.Name))
                         ));
                 }
                 skip++;
             }
-
-            foreach (var state in states)
-                newStates.Add(state);
 
             return newStates;
         }
