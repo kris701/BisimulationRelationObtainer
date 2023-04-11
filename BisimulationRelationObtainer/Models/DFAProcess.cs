@@ -73,37 +73,10 @@ namespace BisimulationRelationObtainer.Models
 
         public void Write(string file)
         {
-            string outStr = "";
-            // Label Declaration
-            outStr += "{";
-            for (int i = 0; i < Labels.Count; i++)
-            {
-                outStr += Labels[i];
-                if (i != Labels.Count - 1)
-                    outStr += ",";
-            }
-            outStr += $"}}{Environment.NewLine}";
-
-            // State Declarations
-            foreach (var state in States.Values)
-            {
-                outStr += $"[({state.Name})";
-                if (state.IsFinalState)
-                    outStr += ":IsFinal";
-                if (state.IsInitialState)
-                    outStr += ":IsInit";
-                outStr += $"]{Environment.NewLine}";
-            }
-
-            // Transitions
-            foreach (var state in States.Values)
-                foreach (var label in Labels)
-                    outStr += $"({state.Name}) {label} ({state.Transitions[label].Name}){Environment.NewLine}";
-
             // Output file
             if (File.Exists(file))
                 File.Delete(file);
-            File.WriteAllText(file, outStr);
+            File.WriteAllText(file, ToString());
         }
 
         public bool Validate()
@@ -151,6 +124,41 @@ namespace BisimulationRelationObtainer.Models
                 throw new Exception("A process must have one initial state!");
 
             return true;
+        }
+
+        public override string? ToString()
+        {
+            string outStr = "";
+            // Label Declaration
+            outStr += $"// Label declaration{Environment.NewLine}";
+            outStr += "{";
+            for (int i = 0; i < Labels.Count; i++)
+            {
+                outStr += Labels[i];
+                if (i != Labels.Count - 1)
+                    outStr += ",";
+            }
+            outStr += $"}}{Environment.NewLine}";
+
+            // State Declarations
+            outStr += $"// State declaration, as well as if its a init state or a final state (or both){Environment.NewLine}";
+            foreach (var state in States.Values)
+            {
+                outStr += $"[{state.Name}";
+                if (state.IsFinalState)
+                    outStr += ":IsFinal";
+                if (state.IsInitialState)
+                    outStr += ":IsInit";
+                outStr += $"]{Environment.NewLine}";
+            }
+
+            // Transitions
+            outStr += $"// Transitions{Environment.NewLine}";
+            foreach (var state in States.Values)
+                foreach (var label in Labels)
+                    outStr += $"{state.Name} {label} {state.Transitions[label].Name}{Environment.NewLine}";
+
+            return outStr;
         }
     }
 }
