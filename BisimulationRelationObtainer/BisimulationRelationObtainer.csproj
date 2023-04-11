@@ -13,10 +13,10 @@
 
   <ItemGroup>
     <None Update="Examples\Example1\t.dfa">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Examples\Example1\s.dfa">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Examples\Example2\t.dfa">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

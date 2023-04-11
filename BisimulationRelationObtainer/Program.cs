@@ -19,7 +19,7 @@ namespace BisimulationRelationObtainer
             public string PProcess { get; set; }
             [Option('q', "qprocess", Required = true, HelpText = "Path to the q process file")]
             public string QProcess { get; set; }
-            [Option('o', "obtainer", Required = true, HelpText = "What obtainer to use. [Naive, HopcroftKarp]", Default = "Naive")]
+            [Option('o', "obtainer", Required = true, HelpText = "What obtainer to use. [Naive, HopcroftKarp, PousBonchi]", Default = "Naive")]
             public string Obtainer { get; set; }
 
             [Usage(ApplicationAlias = "BisimulationRelationObtainer")]
@@ -57,6 +57,7 @@ namespace BisimulationRelationObtainer
             {
                 case "NAIVE": obtainer = new SimpleNaive(); break;
                 case "HOPCROFTKARP": obtainer = new HopcroftAndKarp(); break;
+                case "POUSBONCHI": obtainer = new PousAndBonchi(); break;
                 default:
                     throw new Exception("Obtainer not found!");
             }

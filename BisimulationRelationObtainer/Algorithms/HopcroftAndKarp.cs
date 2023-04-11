@@ -50,9 +50,9 @@ namespace BisimulationRelationObtainer.Algorithms
         private HashSet<Pair<DFAState>> GetReflexiveClosure(DFAProcess P, DFAProcess Q)
         {
             var reflectiveStates = new HashSet<Pair<DFAState>>();
-            foreach (var state in P.States)
+            foreach (var state in P.States.Values)
                 reflectiveStates.Add(new Pair<DFAState>(state, state));
-            foreach (var state in Q.States)
+            foreach (var state in Q.States.Values)
                 reflectiveStates.Add(new Pair<DFAState>(state, state));
             return reflectiveStates;
         }

@@ -9,9 +9,9 @@ namespace BisimulationRelationObtainer.Helpers
 {
     public static class StateHelper
     {
-        public static DFAState GetInitState(List<DFAState> states)
+        public static DFAState GetInitState(Dictionary<Set, DFAState> states)
         {
-            foreach (var state in states)
+            foreach (var state in states.Values)
                 if (state.IsInitialState)
                     return state;
             throw new Exception("State list contains no initial state!");

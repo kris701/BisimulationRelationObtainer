@@ -8,12 +8,12 @@ namespace BisimulationRelationObtainer.Models
 {
     public class DFAState
     {
-        public string Name { get; set; }
+        public Set Name { get; set; }
         public Dictionary<string, DFAState> Transitions { get; set; }
         public bool IsFinalState { get; set; }
         public bool IsInitialState { get; set; }
 
-        public DFAState(string name, Dictionary<string, DFAState> transitions, bool isFinalState = false, bool isInitialState = false)
+        public DFAState(Set name, Dictionary<string, DFAState> transitions, bool isFinalState = false, bool isInitialState = false)
         {
             Name = name;
             Transitions = transitions;
