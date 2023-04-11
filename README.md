@@ -3,6 +3,7 @@ This is a small program to get the bisimulation relations between two processes 
 It currently have two methods to find these relations:
 * A Naive approach
 * The Hopcroft and Karp approach
+* Pous And Bonchi
 
 The program has a CLI interface, that accepts DFA's in file format.
 
@@ -25,10 +26,10 @@ The label declarations is simply a set of what labels are available in the proce
 * `{a, b, c, ...}`
 
 The state declarations consists of max three parts and minimum one:
-* `[StateName:IsInit:IsFinal]`
+* `[(StateName):IsInit:IsFinal]`
 The `IsInit` and `IsFinal` is optional.
 
 Lastly, there is the transitions. These describe how to jump from state to state through a label:
-* `StateName (LabelName) StateName`
+* `(StateName) LabelName (StateName)`
 
-![image](https://user-images.githubusercontent.com/22596587/228923895-1880574a-996b-4862-ba5f-de6d8b920ec7.png)
+![image](https://user-images.githubusercontent.com/22596587/231118394-e9988019-cb56-462b-aa55-fc922ba4386e.png)
