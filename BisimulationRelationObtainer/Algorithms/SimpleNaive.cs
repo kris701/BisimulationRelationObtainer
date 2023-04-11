@@ -13,15 +13,7 @@ namespace BisimulationRelationObtainer.Algorithms
         public override List<Pair<DFAState>> ObtainRelation(DFAProcess P, DFAProcess Q)
         {
             HashSet<Pair<DFAState>> R = new HashSet<Pair<DFAState>>();
-            Queue<Pair<DFAState>> todo = new Queue<Pair<DFAState>>();
-
-            if (!DoesLabelsMatch(P,Q))
-                throw new Exception("Process labels did not match!");
-
-            DFAState p0 = StateHelper.GetInitState(P.States);
-            DFAState q0 = StateHelper.GetInitState(Q.States);
-
-            todo.Enqueue(new Pair<DFAState>(p0,q0));
+            Queue<Pair<DFAState>> todo = InitializeTodoQueue(P, Q);
 
             while (todo.Count > 0)
             {

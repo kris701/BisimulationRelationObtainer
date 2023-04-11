@@ -13,15 +13,7 @@ namespace BisimulationRelationObtainer.Algorithms
         public override List<Pair<DFAState>> ObtainRelation(DFAProcess P, DFAProcess Q)
         {
             HashSet<Pair<DFAState>> R = new HashSet<Pair<DFAState>>();
-            Queue<Pair<DFAState>> todo = new Queue<Pair<DFAState>>();
-
-            if (!DoesLabelsMatch(P,Q))
-                throw new Exception("Process labels did not match!");
-
-            DFAState p0 = StateHelper.GetInitState(P.States);
-            DFAState q0 = StateHelper.GetInitState(Q.States);
-
-            todo.Enqueue(new Pair<DFAState>(p0,q0));
+            Queue<Pair<DFAState>> todo = InitializeTodoQueue(P, Q);
 
             while (todo.Count > 0)
             {
@@ -48,18 +40,6 @@ namespace BisimulationRelationObtainer.Algorithms
             return newStates;
         }
 
-        private HashSet<Pair<DFAState>> GetSymmetricClosure(HashSet<Pair<DFAState>> states)
-        {
-            HashSet<Pair<DFAState>> newStates = new HashSet<Pair<DFAState>>();
-            foreach (var state in states)
-                newStates.Add(new Pair<DFAState>(state.Right, state.Left));
-
-            foreach (var state in states)
-                newStates.Add(state);
-
-            return newStates;
-        }
-
         private HashSet<Pair<DFAState>> GetFullUnionOfStates(HashSet<Pair<DFAState>> states)
         {
             HashSet<Pair<DFAState>> newStates = new HashSet<Pair<DFAState>>();
@@ -82,42 +62,12 @@ namespace BisimulationRelationObtainer.Algorithms
             return newStates;
         }
 
-        private HashSet<Pair<DFAState>> GetDirectTransitiveClosure(HashSet<Pair<DFAState>> states)
-        {
-            HashSet<Pair<DFAState>> newStates = new HashSet<Pair<DFAState>>();
-            foreach (var state in states)
-                newStates.Add(state);
-
-            int lastSize = -1;
-            while (lastSize != newStates.Count)
-            {
-                lastSize = newStates.Count;
-                HashSet<Pair<DFAState>> tempStates = new HashSet<Pair<DFAState>>();
-                foreach (var stateA in newStates)
-                {
-                    foreach (var stateB in newStates)
-                    {
-                        if (stateA.Right.Name == stateB.Left.Name)
-                            tempStates.Add(new Pair<DFAState>(
-                                new DFAState(new Set(stateA.Left.Name), new Dictionary<string, DFAState>()),
-                                new DFAState(new Set(stateB.Right.Name), new Dictionary<string, DFAState>())
-                                ));
-                    }
-                }
-
-                foreach (var state in tempStates)
-                    newStates.Add(state);
-            }
-
-            return newStates;
-        }
-
         private HashSet<Pair<DFAState>> ContextualUnion(Queue<Pair<DFAState>> todo, HashSet<Pair<DFAState>> R)
         {
             HashSet<Pair<DFAState>> initialStates = GetInitializingUnion(todo, R);
             HashSet<Pair<DFAState>> unionStates = GetFullUnionOfStates(initialStates);
             HashSet<Pair<DFAState>> symmetricStates = GetSymmetricClosure(unionStates);
-            HashSet<Pair<DFAState>> returnStates = GetDirectTransitiveClosure(symmetricStates);
+            HashSet<Pair<DFAState>> returnStates = GetTransitiveClosure(symmetricStates);
 
             return returnStates;
         }

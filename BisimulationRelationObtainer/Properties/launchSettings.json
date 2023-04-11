@@ -2,7 +2,7 @@
   "profiles": {
     "BisimulationRelationObtainer": {
       "commandName": "Project",
-      "commandLineArgs": "--pprocess ./Examples/Example2/s.dfa\r\n--qprocess ./Examples/Example2/t.dfa\r\n--obtainer POUSBONCHI"
+      "commandLineArgs": "--pprocess ./Examples/Example1/s.dfa\r\n--qprocess ./Examples/Example1/t.dfa\r\n--obtainer HopcroftKarp"
     }
   }
 }
