@@ -53,7 +53,7 @@ namespace BisimulationRelationObtainer.Models
                                 stateDefString.ToUpper().Contains("ISFINAL"),
                                 stateDefString.ToUpper().Contains("ISINIT")));
                         }
-                        else if (toLowerLine.StartsWith("("))
+                        else
                         {
                             var splitStr = toLowerLine.Split(" ");
                             var left = splitStr[0].Replace("(","").Replace(")","").Split(",");
@@ -88,7 +88,7 @@ namespace BisimulationRelationObtainer.Models
             // State Declarations
             foreach (var state in States.Values)
             {
-                outStr += $"[{state.Name}";
+                outStr += $"[({state.Name})";
                 if (state.IsFinalState)
                     outStr += ":IsFinal";
                 if (state.IsInitialState)
@@ -99,7 +99,7 @@ namespace BisimulationRelationObtainer.Models
             // Transitions
             foreach (var state in States.Values)
                 foreach (var label in Labels)
-                    outStr += $"{state.Name} {label} {state.Transitions[label].Name}{Environment.NewLine}";
+                    outStr += $"({state.Name}) {label} ({state.Transitions[label].Name}){Environment.NewLine}";
 
             // Output file
             if (File.Exists(file))

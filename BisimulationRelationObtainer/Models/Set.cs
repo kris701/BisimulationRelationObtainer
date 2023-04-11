@@ -109,9 +109,16 @@ namespace BisimulationRelationObtainer.Models
 
         public override string? ToString()
         {
-            string retStr = "";
+            string retStr = "(";
+            int counter = 0;
             foreach (var item in Items)
+            {
                 retStr += item.ToString();
+                if (counter != Items.Count - 1)
+                    retStr += ",";
+                counter++;
+            }
+            retStr += ")";
             return retStr;
         }
 
