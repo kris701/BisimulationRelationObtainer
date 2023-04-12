@@ -3,7 +3,7 @@ This is a small program to get the bisimulation relations between two processes 
 It currently have two methods to find these relations:
 * A Naive approach
 * The Hopcroft and Karp approach
-* Pous And Bonchi
+* The Pous And Bonchi Optimization
 
 The program has a CLI interface, that accepts DFA's in file format.
 
